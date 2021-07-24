@@ -78,36 +78,14 @@ App({
               encryptedData: res.encryptedData,
               iv: res.iv
             })
-            wx.login({
-              success(loginRes) {
-                if (loginRes.code) {
-                  WXAPI.shareGroupGetScore(
-                    loginRes.code,
-                    e.query.inviter_id,
-                    res.encryptedData,
-                    res.iv
-                  ).then(_res => {
-                    console.log(_res)
-                  }).catch(err => {
-                    console.error(err)
-                  })
-                } else {
-                  console.error('登录失败！' + loginRes.errMsg)
-                }
-              }
-            })
           }
         })
       }
     }
-    // 自动登录
-    AUTH.checkHasLogined().then(isLogined => {
-      if (!isLogined) {
-        AUTH.login()
-      }
-    })
   },
   globalData: {
-    isConnected: true
+    isConnected: true,
+    userId:5,
+    isLogin:false
   }
 })

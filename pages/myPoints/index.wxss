@@ -1,0 +1,75 @@
+/* pages/pointsMall/index.wxss */
+.all{
+  /* width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  overflow: scroll; */
+  /* background-color: #fafafa; */
+}
+.myPoints{
+  width: 90%;
+  height: 350rpx;
+  margin: 0 auto;
+  border: 2rpx solid #f8f8f8;
+  border-radius: 20rpx;
+  box-shadow: 4rpx  4rpx 3rpx #f1f1f1;
+  text-align: center;
+}
+.number{
+  margin-top: 15rpx;
+  font-size: 110rpx;
+}
+.shopBtn{
+  background-color: #E64340;
+  width: 90%;
+  height: 90rpx;
+  line-height: 90rpx;
+  color: #fff;
+  margin: 30rpx auto;
+}
+.pointsHistory{
+  width: 90%;
+  margin: 10rpx auto;
+}
+.title{
+  margin-top: 65rpx;
+}
+.allHistorys{
+  margin-top: 20rpx;
+  border:2rpx solid #f8f8f8;
+  box-shadow:4rpx  4rpx 3rpx #f1f1f1;
+
+}
+.pointDate{
+  display: flex;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-bottom: 2rpx solid #f8f8f8;
+}
+.line{
+  width: 6rpx;
+  height: 30rpx;
+  background-color: orange;
+  margin: 35rpx 10rpx 35rpx 35rpx;
+}
+.pointDetails{
+  display: flex;
+  height: 160rpx;
+  padding-left: 35rpx;
+  border-bottom: 2rpx solid #f8f8f8;
+}
+.pointReason{
+  margin: 50rpx 0rpx 20rpx 0rpx;
+
+}
+.detailDate{
+  margin-top: 20rpx;
+  font-size: 25rpx;
+  color: #888;
+}
+.pointNumber{
+  color: #E64340;
+  margin-left: 310rpx;
+  line-height: 160rpx;
+}

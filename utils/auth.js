@@ -1,4 +1,5 @@
 const WXAPI = require('apifm-wxapi')
+
 // const Dialog = require('@vant/weapp/dialog/dialog')
 import Dialog from '@vant/weapp/dialog/dialog'
 
@@ -16,43 +17,67 @@ async function checkSession(){
 }
 
 function openLoginDialog() {
-  Dialog.confirm({
-    selector: '#van-dialog-auth-login',
-    message: '需要登陆后才能继续操作',
-    confirmButtonText: '一键登陆',
-    cancelButtonText: '我再看看',
-    confirmButtonOpenType: 'getUserInfo',
-    lang: 'zh_CN'
-  }).then(() => {
-    // Dialog.close()
-  }).catch(() => {
-    // Dialog.close()
+  wx.showModal({
+    cancelColor: 'cancelColor',
+    title: '提示',
+    content: '请先登录',
+    success (res) {
+      if (res.confirm) {
+        wx.switchTab({
+          url: '/pages/my/index',
+        })
+      } else if (res.cancel) {
+        wx.switchTab({
+          url: '/pages/my/index',
+        })
+      }
+    }
   })
+  // Dialog.confirm({
+  //   selector: '#van-dialog-auth-login',
+  //   message: '需要登陆后才能继续操作',
+  //   confirmButtonText: '登陆',
+  //   cancelButtonText: '取消',
+  //   confirmButtonOpenType: 'getUserInfo',
+  //   lang: 'zh_CN'
+  // }).then(() => {
+  //   // Dialog.close()
+  // }).catch(() => {
+  //   // Dialog.close()
+  // })
 }
 
 // 检测登录状态，返回 true / false
-async function checkHasLogined() {
-  const token = wx.getStorageSync('token')
-  if (!token) {
-    return false
-  }
-  const loggined = await checkSession()
-  if (!loggined) {
-    wx.removeStorageSync('token')
-    return false
-  }
-  const checkTokenRes = await WXAPI.checkToken(token)
-  if (checkTokenRes.code != 0) {
-    wx.removeStorageSync('token')
-    return false
-  }
-  return true
+function checkHasLogined() {
+  const APP = getApp();
+  // const token = wx.getStorageSync('token')
+//   console.log("token=========>",token)
+//   if (!token) {
+//     console.log(1);
+//     return false
+//   }
+//   const loggined = await checkSession()
+//   if (!loggined) {
+//     console.log(2);
+//     wx.removeStorageSync('token')
+//     return false
+//   }
+//   const checkTokenRes = await WXAPI.checkToken(token)
+//   if (checkTokenRes.code != 0) {
+//     console.log(3);
+//     wx.removeStorageSync('token')
+//     return false
+//   }
+//   return true
+console.log(APP.globalData)
+return APP.globalData.isLogin;
 }
 
 async function wxaCode(){
   return new Promise((resolve, reject) => {
     wx.login({
       success(res) {
+        console.log("res==============>",res);
         return resolve(res.code)
       },
       fail() {
@@ -66,47 +91,73 @@ async function wxaCode(){
   })
 }
 
-async function getUserInfo() {
-  return new Promise((resolve, reject) => {
-    wx.getUserInfo({
-      success: res => {
-        return resolve(res)
-      },
-      fail: err => {
-        console.error(err)
-        return resolve()
-      }
-    })
+function getUserInfo() {
+  wx.navigateTo({
+    url: 'pages/my/index',
   })
+  return true
+  // return new Promise((resolve, reject) => {
+  //   wx.getUserProfile({
+  //     desc:'用于完善会员资料',
+  //     success: res => {
+  //       return resolve(res)
+  //     },
+  //     fail: err => {
+  //       console.error(err)
+  //       return resolve()
+  //     }
+  //   })
+  // })
+
+
 }
 
 async function login(page){
   const _this = this
-  wx.login({
-    success: function (res) {
-      WXAPI.login_wx(res.code).then(function (res) {        
-        if (res.code == 10000) {
-          // 去注册
-          //_this.register(page)
-          return;
-        }
-        if (res.code != 0) {
-          // 登录错误
-          wx.showModal({
-            title: '无法登录',
-            content: res.msg,
-            showCancel: false
-          })
-          return;
-        }
-        wx.setStorageSync('token', res.data.token)
-        wx.setStorageSync('uid', res.data.uid)
-        if ( page ) {
-          page.onShow()
-        }
-      })
-    }
-  })
+
+        
+        // wx.authorize({
+        //   scope: 'scope.userInfo',
+        //   success() {
+        //     wx.getSetting({
+        //       success(res) {
+        //         if (res.authSetting['scope.userInfo']) {
+        //           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+        //           wx.getUserProfile({
+          // desc:'用于完善会员资料',
+        //             success: function (res) {
+        //               console.log({ encryptedData: res.encryptedData, iv: res.iv})     
+        //             }
+        //           })
+        //         }
+        //       }
+        //     })
+        //   }
+        // })
+    
+
+      // WXAPI.login_wx(res.code).then(function (res) {        
+      //   if (res.code == 10000) {
+      //     // 去注册
+      //     //_this.register(page)
+      //     return;
+      //   }
+      //   if (res.code != 0) {
+      //     // 登录错误
+      //     wx.showModal({
+      //       title: '无法登录',
+      //       content: res.msg,
+      //       showCancel: false
+      //     })
+      //     return;
+      //   }
+      //   wx.setStorageSync('token', res.data.token)
+      //   wx.setStorageSync('uid', res.data.uid)
+      //   if ( page ) {
+      //     page.onShow()
+      //   }
+      // })
+    
 }
 
 async function register(page) {
@@ -114,7 +165,9 @@ async function register(page) {
   wx.login({
     success: function (res) {
       let code = res.code; // 微信登录接口返回的 code 参数，下面注册接口需要用到
-      wx.getUserInfo({
+      console.log("res==================>3",res);
+      wx.getUserProfile({
+        desc:'用于完善会员资料',
         success: function (res) {
           let iv = res.iv;
           let encryptedData = res.encryptedData;

@@ -6,12 +6,13 @@ APP.configLoadOK = () => {
 
 Page({
   data: {
-    markers: [],
+    markers: [{"longitude": "113.028325","latitude": "28.066031","iconPath":"../../images/coupon.png","height": 30,
+    "width": 30}],
   },
   onLoad: function (options) {
-    // options.id = 36
-    this.data.id = options.id
-    this.shopSubdetail()
+    let shopInfo = wx.getStorageSync('shopInfo');
+    this.setData({shopInfo});
+    console.log(this.data.shopInfo)
   },
   async shopSubdetail() {
     const res = await WXAPI.shopSubdetail(this.data.id)
@@ -46,7 +47,6 @@ Page({
     var phoneNumber = this.data.shopInfo.linkPhone
     wx.makePhoneCall({
       phoneNumber,
-      // phoneNumber: phoneNumber,
     })
   },
   // 

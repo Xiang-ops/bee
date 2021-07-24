@@ -97,10 +97,20 @@
   line-height: 40rpx;
   border-radius: 20rpx;
 }
+.memberState{
+  height: 40rpx;
+  width: 120rpx;
+  background-color: #E64340;
+  margin-top: 5rpx;
+  font-size: 25rpx;
+  color: #ffffff;
+  text-align: center;
+  line-height: 40rpx;
+  border-radius: 20rpx;
+}
 .coupon-box{
   display: flex;
-  justify-content: center;
-  margin-top:32rpx ;
+  margin:32rpx 10rpx 0rpx 25rpx;
 }
 .coupon-box .coupon{
   display: flex;

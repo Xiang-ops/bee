@@ -51,7 +51,7 @@ Page({
   async queuingGet(e) {
     const index = e.currentTarget.dataset.index
     const queueType = this.data.list[index]
-    const isLogined = await AUTH.checkHasLogined()
+    let isLogined = AUTH.checkHasLogined()
     if (!isLogined) {
       AUTH.openLoginDialog()
       return

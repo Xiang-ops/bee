@@ -1,29 +1,28 @@
 const wxpay = require('../../utils/pay.js')
 const WXAPI = require('apifm-wxapi')
 const AUTH = require('../../utils/auth')
+const API = require('../../utils/api')
 const APP = getApp()
 APP.configLoadOK = () => {
 
 }
 Page({
   data: {
-    apiOk: false
+    apiOk: false,
+    goodsMap:{
+      1:[{pic:'http://localhost:8089/menuPic/1618123741947.jpg'},{pic:'http://localhost:8089/menuPic/1618123741947.jpg'},{pic:'http://localhost:8089/menuPic/1618123741947.jpg'}]
+    }
   },
-  cancelOrderTap: function(e) {
-    const that = this;
-    const orderId = e.currentTarget.dataset.id;
-    wx.showModal({
-      title: '确定要取消该订单吗？',
-      content: '',
-      success: function(res) {
-        if (res.confirm) {
-          WXAPI.orderClose(wx.getStorageSync('token'), orderId).then(function(res) {
-            if (res.code == 0) {
-              that.onShow();
-            }
-          })
-        }
-      }
+  goComment:function(e){
+    console.log(e)
+    let index = e.target.dataset.id
+    console.log("lalala==>", index);
+    console.log("lalalalalalala====>",this.data.orderList)
+    let menuName = this.data.orderList[index].menuName;
+    let userName = this.data.orderList[index].clientName;
+    let number = this.data.orderList[index].number;
+    wx.navigateTo({
+      url: '../comment/comment?menuName='+menuName+'&userName='+userName+'&orderNumber='+number,
     })
   },
   toPayTap: function(e) {
@@ -103,56 +102,67 @@ Page({
     
   },
   onShow: function() {
-    AUTH.checkHasLogined().then(isLogined => {
-      if (isLogined) {
-        this.doneShow();
-      } else {
-        wx.showModal({
-          content: '登陆后才能访问',
-          showCancel: false,
-          success: () => {
-            wx.navigateBack()
-          }
-        })
-      }
-    })
+    let isLogined = AUTH.checkHasLogined()
+    if (isLogined) {
+      this.doneShow();
+    } else {
+      wx.showModal({
+        content: '登陆后才能访问',
+        showCancel: false,
+        success: () => {
+          wx.navigateBack()
+        }
+      })
+    }
   },
-  async doneShow() {
+  doneShow() {
     wx.showLoading({
       title: '',
     })
-    const res = await WXAPI.orderList({
-      token: wx.getStorageSync('token')
+    let getOrder = API.orderList({
+      userId: wx.getStorageSync('userId')||5
+    })
+    getOrder.then((res) => {
+      if (res.statusCode == 200) {
+        let orderList = res.data
+        orderList.forEach(ele => {
+          if (ele.isCash == 1) {
+            ele.statusStr = '待评价'
+          }
+          if (ele.isCash == 0) {
+            ele.statusStr = '待取餐'
+          }
+          if (ele.isCash== 2) {
+            ele.statusStr = '已完成'
+          }
+          // let getMenuList = API.MenuList({
+          //   orderNumber:ele.number
+          // })
+          // getMenuList.then(res => {
+
+          // })
+        })
+        wx.setStorageSync('orderList', orderList)
+        console.log("订单列表======>",orderList)
+        
+        this.setData({
+          orderList: orderList,
+          // logisticsMap: res.data.logisticsMap,
+          // goodsMap: res.data.goodsMap,
+          // apiOk: true
+        });
+        
+      } else {
+        this.setData({
+          orderList: null,
+          // logisticsMap: {},
+          // goodsMap: {},
+          // apiOk: true
+        });
+      }
     })
     wx.hideLoading()
-    if (res.code == 0) {
-      const orderList = res.data.orderList
-      orderList.forEach(ele => {
-        if (ele.status == 1 && ele.isNeedLogistics) {
-          ele.statusStr = '配送中'
-        }
-        if (ele.status == 1 && !ele.isNeedLogistics) {
-          ele.statusStr = '待取餐'
-        }
-        if (ele.status == 3) {
-          ele.statusStr = '已完成'
-        }
-      })
-      this.setData({
-        orderList: res.data.orderList,
-        logisticsMap: res.data.logisticsMap,
-        goodsMap: res.data.goodsMap,
-        apiOk: true
-      });
-      
-    } else {
-      this.setData({
-        orderList: null,
-        logisticsMap: {},
-        goodsMap: {},
-        apiOk: true
-      });
-    }
+    
   },
   toIndexPage: function() {
     wx.switchTab({

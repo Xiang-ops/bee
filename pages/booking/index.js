@@ -38,17 +38,16 @@ Page({
 
   },
   onShow: function () {
-    AUTH.checkHasLogined().then(isLogined => {
-      if (!isLogined) {
-        wx.showModal({
-          content: '登陆后才能访问',
-          showCancel: false,
-          success: () => {
-            wx.navigateBack()
-          }
-        })
-      }
-    })
+   let isLogined =  AUTH.checkHasLogined()
+    if (!isLogined) {
+      wx.showModal({
+        content: '登陆后才能访问',
+        showCancel: false,
+        success: () => {
+          wx.navigateBack()
+        }
+      })
+    }
   },
   changePersionNum(e) {
     this.setData({

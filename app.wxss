@@ -22,3 +22,13 @@ page,view,image,input {
   border: 1rpx solid #fff;
   border-radius: 50%;
 }
+.flex{
+  display: flex;
+}
+.cellOverflow{
+  overflow: hidden;
+  white-space: nowrap;
+  /* //不换行 */
+  text-overflow: ellipsis;
+  /* 省略号显示 */
+}

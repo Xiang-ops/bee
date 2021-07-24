@@ -1,4 +1,4 @@
-<view class="container">
+<!-- <view class="container">
 	<view wx:if="{{apiOk && !orderList}}" class="no-order">
 		<view class="content-1">您还没有点餐</view>
 		<view class="content-2">快去犒劳一下自己吧！</view>
@@ -27,6 +27,47 @@
 				<van-button wx:if="{{item.status== -1}}" type="danger" plain hairline size="small" bind:click="deleteOrder" data-id="{{item.id}}">删除订单</van-button>
 				<van-button custom-class="btn" wx:if="{{item.status== 0}}" type="warning" plain hairline size="small" bind:click="cancelOrderTap" data-id="{{item.id}}">关闭订单</van-button>
 				<van-button wx:if="{{item.status== 0}}" type="primary" plain hairline size="small" bind:click="toPayTap" data-id="{{item.id}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">立即支付</van-button>
+			</view>
+		</view>
+	</view>
+	<view class="safeAreaOldMarginBttom safeAreaNewMarginBttom"></view>
+</view> -->
+
+
+<view class="container">
+	<!-- <view wx:if="{{apiOk && !orderList}}" class="no-order">
+		<view class="content-1">您还没有点餐</view>
+		<view class="content-2">快去犒劳一下自己吧！</view>
+		<view class="to-index-btn" bindtap="toIndexPage">去点餐</view>
+	</view> -->
+
+	<view wx:if="{{orderList}}" class="order-list">
+		<view class="a-order" wx:for="{{orderList}}" wx:key="index">
+			<navigator url="/pages/order-details/index?number={{item.number}}&index={{index}}" class="weui-cell weui-cell_access" hover-class="none">
+				<van-cell value="{{item.statusStr}}" icon="shop-o" is-link>
+					<view slot="title">
+						<view class="van-cell-text cellOverflow" style="width:250rpx">{{item.menuName}}</view>
+					</view>
+				</van-cell>
+			</navigator>
+			<!-- <scroll-view class="goods-img-container" scroll-x="true">
+				<view class="img-box" wx:for="{{order[item.id]}}" wx:key="index">
+					<image mode="aspectFill" src="{{item.pic}}" class="goods-img"></image>
+				</view>
+			</scroll-view> -->
+			<view class="order-info-box">
+				<view class="l">
+					<view>下单时间：{{item.date}}</view>
+					<view>订单编号：{{item.waitTime}}</view>
+					<view>订单编号：{{item.number}}</view>
+				</view>
+				<view class="r"><text>¥</text>{{item.price}}</view>
+			</view>
+			<view class="price-box">
+				<!-- <van-button wx:if="{{item.isCash > 0}}" type="primary" plain hairline size="small" bind:click="callShop" data-shopid="{{item.shopIdZt}}">联系商家</van-button> -->
+				<!-- <van-button wx:if="{{item.isCash>0}}" type="danger" plain hairline size="small" bind:click="deleteOrder" data-id="{{item.id}}">删除订单</van-button> -->
+				<van-button custom-class="btn" wx:if="{{item.isCash== 1}}" type="warning" plain hairline size="small" bind:click="goComment" data-id="{{index}}" >订单评价</van-button>
+				<!-- <van-button wx:if="{{item.isCash== 1}}" type="primary" plain hairline size="small" bind:click="toPayTap" data-id="{{item.id}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">立即支付</van-button> -->
 			</view>
 		</view>
 	</view>

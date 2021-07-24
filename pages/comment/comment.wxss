@@ -1,0 +1,42 @@
+/* pages/comment/comment.wxss */
+.container{
+  width: 95%;
+  margin: 10rpx auto;
+}
+.comment_content{
+  margin-top:15rpx ;
+}
+.condition_title{
+  font-size: 30rpx;
+  color: #666;
+  margin: 10rpx;
+}
+.comment_bottom{
+  display: flex;
+}
+.bottom_warn{
+  color: #666;
+  font-size: 25rpx;
+  margin-bottom: 15rpx;
+}
+.uplodaFile{
+  width: 180rpx;
+  height: 180rpx;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btnSubmit{
+  position: fixed;
+  bottom: 30rpx;
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  height: 100rpx;
+  background-color: #E64340;
+  line-height: 100rpx;
+  color: #FFF;
+  /* line-height: ; */
+  
+}

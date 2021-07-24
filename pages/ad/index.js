@@ -442,19 +442,18 @@ Page({
     }
   },
   onShow: function() {
-    AUTH.checkHasLogined().then(isLogined => {
-      if (isLogined) {
-        this.initShippingAddress();
-      } else {
-        wx.showModal({
-          content: '登陆后才能访问',
-          showCancel: false,
-          success: () => {
-            wx.navigateBack()
-          }
-        })
-      }
-    })
+    let isLogined = AUTH.checkHasLogined();
+    if (isLogined) {
+      this.initShippingAddress();
+    } else {
+      wx.showModal({
+        content: '登陆后才能访问',
+        showCancel: false,
+        success: () => {
+          wx.navigateBack()
+        }
+      })
+    }
   },  
   
   // 判断电话号码格式

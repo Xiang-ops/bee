@@ -1,0 +1,34 @@
+<!--pages/pointsMall/index.wxml-->
+<view class="all">
+  <!-- <view class="topTab">
+    <view class="tab">我的积分</view>
+    <view class="myPoints">
+      <view class="number">30</view>
+      <view class="myPointBtn">积分明细</view>
+    </view>
+  </view> -->
+  <view class="pointsCoupon">
+    <view class="flex">
+      <view class="line"></view>
+      <view class="title">积分换券</view>
+    </view>
+    <view class="allCoupons" wx:for="{{allCoupon}}" wx:key="index" wx:for-item="item">
+      <view class="coupons">
+        <view class="left">
+          <view class="price">￥{{item.subPrice}}</view>
+          <view class="hreshold">满{{item.hreshold}}元可用</view>
+        </view>
+        <view class="right">
+          <view class="cutPrice">{{item.subPrice}}元立减优惠券</view>
+          <view class="endDate">领取当天生效，{{item.endDate}}失效</view>
+          <view class="couponsType">互斥券</view>
+        </view>
+        
+      </view>
+      <view class="points">
+        <view class="needPoint">{{item.point}}积分</view>
+        <view class="exchangeBtn" bindtap="exchangeCoupon" data-idx="{{index}}">立即兑换</view>
+      </view>
+    </view>
+  </view>
+</view>

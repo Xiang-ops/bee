@@ -1,5 +1,6 @@
 const APP = getApp();
-const WXAPI = require('apifm-wxapi')
+const WXAPI = require('apifm-wxapi');
+const API = require('../../utils/api')
 APP.configLoadOK = () => {
   wx.setNavigationBarTitle({
     title: wx.getStorageSync('mallName')
@@ -10,38 +11,75 @@ const wxpay = require('../../utils/pay.js')
 
 Page({
     data:{
-      
+      active:2
     },
     onLoad:function(e){
       // e.id = 601144
-      this.setData({
-        orderId: e.id
-      })
-      this.orderDetail()
+      
+      this.getDetail(e);
+      console.log(e);
+      
     },
     onShow : function () {
       
+      
     },
-    async orderDetail() {
-      const res = await WXAPI.orderDetail(wx.getStorageSync('token'), this.data.orderId)
-      if (res.code != 0) {
-        wx.showModal({
-          title: '错误',
-          content: res.msg,
-          showCancel: false
-        })
-        return
-      }
-      // 绘制核销码
-      if (res.data.orderInfo.hxNumber && res.data.orderInfo.status == 1) {
-        wxbarcode.qrcode('qrcode', res.data.orderInfo.hxNumber, 400, 400);
-      }        
+    getDetail(e){
+      let _this = this;
       this.setData({
-        orderDetail: res.data
+        orderNumber: e.number
       })
-      if (res.data.orderInfo.shopIdZt) {
-        this.shopSubdetail()
+      let order = wx.getStorageSync('orderList')[e.index];
+      console.log("order=================>",order);
+      this.setData({
+        order:order
+      })
+      
+      let step0= [{desc: '提交订单',},{desc: '制作',},{desc: '取餐',}]
+      let step1= [{desc: '制作',},{desc: '取餐',},{desc: '评价',}]
+      let step2= [{desc: '取餐',},{desc: '评价',},{desc: '完成',}]
+      if(order.isCash===0){
+        _this.setData({
+          steps:step0
+        })
       }
+      else if(order.isCash===1){
+        _this.setData({
+          steps:step1
+        })
+      }else{
+        console.log("执行了这个函数")
+        _this.setData({
+          steps:step2
+        })
+      }
+      this.orderDetail()
+    },
+     orderDetail() {
+      let getOrderDetail = API.MenuList({orderNumber:this.data.orderNumber});
+      getOrderDetail.then(res => {
+        this.setData({
+          orderDetail: res.data
+        })
+      })
+      // if (res.code != 0) {
+      //   wx.showModal({
+      //     title: '错误',
+      //     content: res.msg,
+      //     showCancel: false
+      //   })
+      //   return
+      // }
+      // // 绘制核销码
+      // if (res.data.orderInfo.hxNumber && res.data.orderInfo.status == 1) {
+      //   wxbarcode.qrcode('qrcode', res.data.orderInfo.hxNumber, 400, 400);
+      // }        
+      // this.setData({
+      //   orderDetail: res.data
+      // })
+      // if (res.data.orderInfo.shopIdZt) {
+      //   this.shopSubdetail()
+      // }
     },
     async shopSubdetail() {
       const res = await WXAPI.shopSubdetail(this.data.orderDetail.orderInfo.shopIdZt)

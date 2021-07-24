@@ -63,7 +63,7 @@
   line-height: 80rpx;
   color: #ffffff;
 }
-.title1, .title2, .title3{
+.title1, .title2, .title3, .title4{
   width: 233rpx;
   text-align: center;
   line-height: 80rpx;

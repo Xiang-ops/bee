@@ -1,20 +1,21 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/all-orders/index",
     "pages/my/index",
-    "pages/ad/index",
+    "pages/myPoints/index",
+    "pages/pointsMall/index",
+    "pages/coupons/index",          
+    "pages/index/index",     
+    "pages/order-details/doing",     
+    "pages/all-orders/index",    
     "pages/pay/index",
     "pages/shop/select",
-    "pages/shop/detail",
+    "pages/shop/detail",    
     "pages/youhui-pay/index",
     "pages/member-center/index",
     "pages/order-details/index",
     "pages/order-details/scan-result",
-    "pages/order-details/doing",
-    "pages/about/index",
-    "pages/coupons/index",
-    "pages/booking/index",
+    "pages/about/index",    
+    "pages/ad/index",
     "pages/asset/index",
     "pages/asset/recharge-log",
     "pages/asset/cash-log",
@@ -23,12 +24,13 @@
     "pages/notice/detail",
     "pages/queue/index",
     "pages/cart/index",
-    "pages/cart/order"
+    "pages/cart/order",
+    "pages/comment/comment"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarBackgroundColor": "#E64340",
+    "navigationBarTitleText": "订餐",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -41,12 +43,6 @@
         "iconPath": "images/nav/index-off.png",
         "selectedIconPath": "images/nav/index-on.png",
         "text": "点餐"
-      },
-      {
-        "pagePath": "pages/queue/index",
-        "iconPath": "images/nav/qh-off.png",
-        "selectedIconPath": "images/nav/qh-on.png",
-        "text": "取号"
       },
       {
         "pagePath": "pages/order-details/doing",
@@ -68,7 +64,7 @@
     }
   },
   "usingComponents": {
-    "parser":"/components/parser.20200731.min/parser",
+    "parser": "/components/parser.20200731.min/parser",
     "van-button": "@vant/weapp/button/index",
     "van-sidebar": "@vant/weapp/sidebar/index",
     "van-sidebar-item": "@vant/weapp/sidebar-item/index",
@@ -94,7 +90,11 @@
     "van-notice-bar": "@vant/weapp/notice-bar/index",
     "van-tabbar": "@vant/weapp/tabbar/index",
     "van-tabbar-item": "@vant/weapp/tabbar-item/index",
-    "van-tag": "@vant/weapp/tag/index"
+    "van-tag": "@vant/weapp/tag/index",
+    "van-rate": "@vant/weapp/rate/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-steps": "@vant/weapp/steps/index"  
   },
+
   "sitemapLocation": "sitemap.json"
 }

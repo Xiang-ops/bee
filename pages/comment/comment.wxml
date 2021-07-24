@@ -1,0 +1,40 @@
+<view class="container">
+  <view class="comment_title">
+    <view>香飘飘奶茶店</view>
+    <view class="condition_title">{{menuName}}</view>
+  </view>
+  <view class="comment_content">
+    <textarea maxlength="150" placeholder="请发表友善的评论，不要超过150个字" bindinput="inputComment" bindconfirm="inputComment">
+
+    </textarea>
+  </view>  
+  <view class="comment_pic">
+    <!-- <view class="uplodaFile" bindtap="upLoadFile">
+      <view class="camera">
+        <image src="../../images/camera.png" style="width:80rpx;height:80rpx"></image>
+      </view>
+    </view> -->
+    <van-uploader
+    file-list="{{ fileList }}"
+    bind:after-read="afterRead"
+    accept="image"
+    max-count="1"
+    />
+    <!-- 
+      use-before-read
+      bind:before-read="beforeRead" -->
+    <view class="bottom_warn">不得超过一张图片</view>
+  </view>  
+  <view>
+    <van-rate value="{{ value }}" bind:change="onChange" />
+  </view>
+  <!-- <view class="comment_bottom">
+    <radio-group bindchange="changeRadio">
+      <radio color="#e64340" value="1">公开</radio>
+    </radio-group>
+    
+  </view> -->
+  <view  class="btnSubmit" bindtap="submitComment">
+    提交
+  </view>
+</view>

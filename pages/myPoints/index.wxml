@@ -1,0 +1,26 @@
+<view class="all">
+  <view class="myPoints">
+    <view class="number">{{allPoint}}</view>
+    <view class="shopBtn" bindtap="goPointShop">积分商城</view>
+  </view>
+  <view class="pointsHistory">
+    <view class="title">积分记录</view>
+    <view class="allHistorys">
+      <view class="historyDetails" wx:for="{{pointData}}" wx:key="key" wx:for-item="item" wx:for-index="key">
+        <view class="pointDate">
+          <view class="line"></view>
+          <view class="date">{{key}}</view>
+        </view>
+        <view class="pointDetails" wx:for="{{item}}" wx:for-item="item2" wx:key="index" >
+          <view class="pointReason">
+            <view>{{item2.stepDetail}}</view>
+            <view class="detailDate">{{item2.time}}</view>
+          </view>
+          <view class="pointNumber">
+            {{item2.addPoint>0?'+':''}}{{item2.addPoint}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
